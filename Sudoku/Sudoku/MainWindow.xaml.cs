@@ -24,10 +24,14 @@ namespace Sudoku
     /// </summary>
     public partial class MainWindow : Window {
         Button selectedButton = null;
-        
+
+        int[,] sudokuArray;
+        string sudokuString;
+
         public MainWindow(){
-            int[,] sudokuArray = loadSudoku("C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt");
-            string sudokuString = convertArrayToString(sudokuArray);
+
+            sudokuArray = loadSudoku("C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt");
+            sudokuString = convertArrayToString(sudokuArray);
             var s = SudokuFactory.CreateSudoku(sudokuString);
 
             PrintToConsole(sudokuArray);
@@ -47,14 +51,28 @@ namespace Sudoku
                     e.Handled = true;
                     MessageBox.Show("I only accept numbers, sorry. :(", "Error");
                 } else {
-                    selectedButton.Content = e.Key.ToString()[1];
+                    int inputKey = int.Parse(e.Key.ToString()[1] + "");
+                    Console.WriteLine("HER: " + inputKey);
+                    CanIPressThisButton((byte)inputKey);
                 }
             }
         }
 
-        public void CanIPressThisButton(int input) {
-            int x = selectedButton.Name[3];
-            int y = selectedButton.Name[4];
+        public bool CanIPressThisButton(byte input) {
+            int x = int.Parse(selectedButton.Name[3] + "");
+            int y = int.Parse(selectedButton.Name[4] + "");
+            Console.WriteLine("X: " + x + " - Y: " + y);
+
+            Console.WriteLine("HER: " + input);
+            List<byte> allowedNumbers = SudokuFactory.CreateSudoku(sudokuString).PossibleNumbers(x,y);
+            if (allowedNumbers.Contains(input)) {
+                sudokuArray[x, y] = (int)input;
+                sudokuString = convertArrayToString(sudokuArray);
+                return true;
+            } else {
+                MessageBox.Show("You cannot input this here, pass along please", "Error");
+            }
+            return false;
         }
 
         public void PrintToConsole(int[,] input) {
