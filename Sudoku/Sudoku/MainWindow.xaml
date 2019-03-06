@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sudoku"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-        <ToolBar MinHeight="10">
+        Title="MainWindow" MinHeight="400" Height="450" MinWidth="200" Width="350">
+    <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ToolBar MinHeight="10" DockPanel.Dock="Top">
             <Menu>
                 <MenuItem Header="File">
                     <MenuItem Header="Save"></MenuItem>
@@ -15,7 +15,8 @@
                 </MenuItem>
             </Menu>
         </ToolBar>
-        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill" x:Name="vb">
+        <StatusBar DockPanel.Dock="Bottom">Ready</StatusBar>
+        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform" x:Name="vb">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="c0" Width="*"/>
@@ -41,5 +42,5 @@
                 </Grid.RowDefinitions>
             </Grid>
         </Viewbox>
-    </StackPanel>
+    </DockPanel>
 </Window>
