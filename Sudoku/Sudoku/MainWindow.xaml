@@ -10,30 +10,27 @@
         <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition x:Name="c0" Width="*"/>
+                    <ColumnDefinition x:Name="c1" Width="*"/>
+                    <ColumnDefinition x:Name="c2" Width="*"/>
+                    <ColumnDefinition x:Name="c3" Width="*"/>
+                    <ColumnDefinition x:Name="c4" Width="*"/>
+                    <ColumnDefinition x:Name="c5" Width="*"/>
+                    <ColumnDefinition x:Name="c6" Width="*"/>
+                    <ColumnDefinition x:Name="c7" Width="*"/>
+                    <ColumnDefinition x:Name="c8" Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition x:Name="r0" Height="*"/>
+                    <RowDefinition x:Name="r1" Height="*"/>
+                    <RowDefinition x:Name="r2" Height="*"/>
+                    <RowDefinition x:Name="r3" Height="*"/>
+                    <RowDefinition x:Name="r4" Height="*"/>
+                    <RowDefinition x:Name="r5" Height="*"/>
+                    <RowDefinition x:Name="r6" Height="*"/>
+                    <RowDefinition x:Name="r7" Height="*"/>
+                    <RowDefinition x:Name="r8" Height="*"/>
                 </Grid.RowDefinitions>
-                
-                
-                
             </Grid>
         </Viewbox>
     </Grid>
