@@ -6,9 +6,17 @@
         xmlns:local="clr-namespace:Sudoku"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+    <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <ToolBar MinHeight="10">
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="Save"></MenuItem>
+                    <MenuItem Header="Load"></MenuItem>
+                </MenuItem>
+            </Menu>
+        </ToolBar>
+        <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Fill" x:Name="vb">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grid">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="c0" Width="*"/>
                     <ColumnDefinition x:Name="c1" Width="*"/>
@@ -33,5 +41,5 @@
                 </Grid.RowDefinitions>
             </Grid>
         </Viewbox>
-    </Grid>
+    </StackPanel>
 </Window>
