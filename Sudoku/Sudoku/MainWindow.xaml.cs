@@ -176,8 +176,12 @@ namespace Sudoku
 
         public void loadSudokuDialog(object sender, RoutedEventArgs e) {
             OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            Nullable<bool> result = dlg.ShowDialog();
 
+            //filter to only accept .txt
+            dlg.DefaultExt = ".txt";
+            dlg.Filter = "Text documents (.txt)|*.txt";
+
+            Nullable<bool> result = dlg.ShowDialog();
 
 
 
