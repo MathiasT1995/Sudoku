@@ -53,7 +53,7 @@ namespace Sudoku
             if(selectedButton != null) {
                 if (!Char.IsDigit((char)KeyInterop.VirtualKeyFromKey(e.Key)) & e.Key != Key.Back | e.Key == Key.Space) {
                     e.Handled = true;
-                    MessageBox.Show("I only accept numbers, sorry. :(", "Error");
+                    Stat.Text = "I only accept numbers, sorry. :(";
                 } else {
                     int inputKey = int.Parse(e.Key.ToString()[1] + "");
                     CanIPressThisButton((byte)inputKey);
@@ -76,12 +76,13 @@ namespace Sudoku
                 sudokuString = convertArrayToString(sudokuArray);
                 selectedButton.Content = input;
                 selectedButton.IsEnabled = false;
+                    Stat.Text = "GJ NIGGA";
                 return true;
             } else {
-                MessageBox.Show("You cannot input this here, pass along please", "Error");
+                    Stat.Text = "NIGGA YOU STUPID AS HELL";
             }
             }else {
-                Console.WriteLine("Her fucker det up!! my dude");
+                Stat.Text = "NIGGA YOU ALREADY CHOSE THIS NUMBER";
             }
             return false;
         }

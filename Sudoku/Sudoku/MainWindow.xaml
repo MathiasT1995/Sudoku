@@ -16,7 +16,11 @@
                 </MenuItem>
             </Menu>
         </ToolBar>
-        <StatusBar DockPanel.Dock="Bottom">Ready</StatusBar>
+        <StatusBar DockPanel.Dock="Bottom">
+            <StatusBarItem>
+                <TextBlock x:Name="Stat">Ready</TextBlock>        
+            </StatusBarItem>
+        </StatusBar>
         <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform" x:Name="vb">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grid" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}">
                 <Grid.ColumnDefinitions>
