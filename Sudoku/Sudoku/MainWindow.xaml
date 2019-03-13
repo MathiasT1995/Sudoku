@@ -11,7 +11,7 @@
         <ToolBar MinHeight="10" DockPanel.Dock="Top">
             <Menu>
                 <MenuItem Header="File" >
-                    <MenuItem Header="Save"></MenuItem>
+                    <MenuItem Header="Save" Click="saveSudokuDialog"></MenuItem>
                     <MenuItem Header="Load" Click="loadSudokuDialog"></MenuItem>
                 </MenuItem>
             </Menu>

@@ -27,9 +27,9 @@ namespace Sudoku
 
         int[,] sudokuArray;
         string sudokuString;
-        string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
+        //string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
         // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
-        // "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
+        string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
         public MainWindow(){
 
             sudokuArray = loadSudoku(sudokuPath);
@@ -154,6 +154,7 @@ namespace Sudoku
         }
 
         public int[,] loadSudoku(string path) {
+
             int[,] SudokuArray = new int[9, 9];
                string[] lines = File.ReadAllLines(path);
                int index = new Random().Next(0, lines.Length-1);
@@ -171,7 +172,7 @@ namespace Sudoku
                    }
                }
         return SudokuArray;
-            }
+        }
 
         public void loadSudokuDialog(object sender, RoutedEventArgs e) {
             OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -182,19 +183,26 @@ namespace Sudoku
 
             Nullable<bool> result = dlg.ShowDialog();
 
-
-
             if (result == true) {
                 // Open document 
                 string filename = dlg.FileName;
-                sudokuPath = filename;
+                try {
                 sudokuArray = loadSudoku(filename);
+                sudokuPath = filename;
                 sudokuString = convertArrayToString(sudokuArray);
                 initializeSudoku(sudokuArray);
-
+                } catch {
+                    MessageBox.Show("Den valgte fil kan ikke læses", "error");
+                }
             }
+        }
 
-    }
+        public void saveSudokuDialog(object sender, RoutedEventArgs e) {
+            string tmpSudokuString = sudokuString.Replace("0", ".");
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            if (saveFileDialog.ShowDialog() == true)
+                File.WriteAllText(saveFileDialog.FileName, tmpSudokuString);
+        }
     }
 }
     
