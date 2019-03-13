@@ -35,8 +35,12 @@ namespace Sudoku
         }
 
         public void buttonClicked(object sender, RoutedEventArgs e) {
+            if(selectedButton != null) {
+                selectedButton.BorderBrush = Brushes.Black;
+            }
             Button srcButton = e.Source as Button;
             selectedButton = srcButton;
+            selectedButton.BorderBrush = Brushes.Red;
         }
 
         private void Window_KeyDown(object sender, KeyEventArgs e) {
@@ -107,7 +111,8 @@ namespace Sudoku
                     btn.Name = "btn" + x.ToString() + y.ToString();
                     btn.Click += buttonClicked;
                     btn.Content = "";
-                    
+                    btn.BorderBrush = Brushes.Black;
+
                     //Puts the button in the correc grid position
                     Grid.SetColumn(btn, x);
                     Grid.SetRow(btn, y);
