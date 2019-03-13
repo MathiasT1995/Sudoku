@@ -29,7 +29,8 @@ namespace Sudoku
         string sudokuString;
 
         public MainWindow(){
-
+            // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
+            // "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
             sudokuArray = loadSudoku("C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt");
             sudokuString = convertArrayToString(sudokuArray);
             var s = SudokuFactory.CreateSudoku(sudokuString);
