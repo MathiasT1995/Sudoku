@@ -18,7 +18,7 @@
         </ToolBar>
         <StatusBar DockPanel.Dock="Bottom">Ready</StatusBar>
         <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Stretch="Uniform" x:Name="vb">
-            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grid">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" x:Name="grid" Width="{Binding RelativeSource={RelativeSource Self}, Path=ActualHeight}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition x:Name="c0" Width="*"/>
                     <ColumnDefinition x:Name="c1" Width="*"/>
