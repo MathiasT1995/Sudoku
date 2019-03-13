@@ -29,8 +29,9 @@ namespace Sudoku
         string sudokuString;
 
         public MainWindow(){
-
-            sudokuArray = loadSudoku("C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt");
+            // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
+            // "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
+            sudokuArray = loadSudoku("C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt");
             sudokuString = convertArrayToString(sudokuArray);
             var s = SudokuFactory.CreateSudoku(sudokuString);
 
@@ -68,6 +69,9 @@ namespace Sudoku
             if (allowedNumbers.Contains(input)) {
                 sudokuArray[x, y] = (int)input;
                 sudokuString = convertArrayToString(sudokuArray);
+                string tempBtnName = "btn" + x.ToString() + y.ToString();
+                Button tempBtn = (Button)FindName(tempBtnName);
+                tempBtn.Content = input;
                 return true;
             } else {
                 MessageBox.Show("You cannot input this here, pass along please", "Error");
@@ -143,7 +147,7 @@ namespace Sudoku
                        x++;
                    }
                }
-        return SudokuArray;
+               return SudokuArray;
             }
         }
     }
