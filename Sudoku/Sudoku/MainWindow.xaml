@@ -11,9 +11,9 @@
         <ToolBar MinHeight="10" DockPanel.Dock="Top">
             <Menu>
                 <MenuItem Header="File" >
-                    <MenuItem Header="Save" Click="saveSudokuDialog"></MenuItem>
-                    <MenuItem Header="Load" Click="loadSudokuDialog"></MenuItem>
-                    <MenuItem Header="Solve Sudoku" Click="solveSudokuDialog"></MenuItem>
+                    <MenuItem Header="Save" Click="SaveSudokuDialog"></MenuItem>
+                    <MenuItem Header="Load" Click="LoadSudokuDialog"></MenuItem>
+                    <MenuItem Header="Solve Sudoku" Click="SolveSudokuDialog"></MenuItem>
                 </MenuItem>
             </Menu>
         </ToolBar>

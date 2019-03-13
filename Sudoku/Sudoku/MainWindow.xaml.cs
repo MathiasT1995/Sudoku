@@ -24,27 +24,14 @@ namespace Sudoku
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window {
+
         Button selectedButton = null;
-
         int[,] sudokuArray;
-        string sudokuString;
-        //string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
-        // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
-        string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
-
         ISudoku sudo;
 
         public MainWindow(){
-
-            //sudokuArray = createArrayFromString(loadSudoku(sudokuPath));
-            //sudokuString = convertArrayToString(sudokuArray);
-            //sudo = SudokuFactory.CreateSudoku(sudokuString);
-            //sudo.Solve();
-
-            //PrintToConsole(sudokuArray);
             InitializeComponent();
-            insertButtons();
-            //initializeSudoku(sudokuArray);
+            InsertButtons();
         }
 
         public void buttonClicked(object sender, RoutedEventArgs e) {
@@ -56,86 +43,78 @@ namespace Sudoku
             if(selectedButton != null) {
                 if (!Char.IsDigit((char)KeyInterop.VirtualKeyFromKey(e.Key)) & e.Key != Key.Back | e.Key == Key.Space) {
                     e.Handled = true;
-                    Stat.Text = "I only accept numbers, sorry. :(";
+                    Stat.Text = "NIGGA, YOU DONE GOOFED";
                 } else {
-                    int inputKey = int.Parse(e.Key.ToString()[1] + "");
-                    CanIPressThisButton((byte)inputKey);
+                    byte inputKey = byte.Parse(e.Key.ToString()[1] + "");
+                    ButtonPressed(inputKey);
                 }
             }
         }
 
-        public bool CanIPressThisButton(byte input) {
-            //Again, this is swaped because int[] is fucked
-            int y = int.Parse(selectedButton.Name[3] + "");
-            int x = int.Parse(selectedButton.Name[4] + "");
+        public void ButtonPressed(byte input) {
+            int row = int.Parse(selectedButton.Name[3] + "");
+            int column = int.Parse(selectedButton.Name[4] + "");
 
-            ISudoku tmpSudo = sudo.Clone();
-            tmpSudo.SetNumberAt(x, y, input);
             if(input == 0) {
                 Stat.Text = "Nigga, you cannot put 0 in a sudoku";
-                return false;
+                return;
             }
+
+            ISudoku tmpSudo = sudo.Clone();
+            tmpSudo.SetNumberAt(column, row, input);
+
             if (tmpSudo.IsSolvable()) {
 
-                sudokuArray[x, y] = (int)input;
-                sudokuString = convertArrayToString(sudokuArray);
+                sudokuArray[column, row] = (int)input;
                 selectedButton.Content = input;
                 selectedButton.IsEnabled = false;
-                sudo.SetNumberAt(x, y, input);
+                sudo.SetNumberAt(column, row, input);
                 Stat.Text = "GJ NIGGA";
-                return true;
+                if (sudo.IsSolved()) {
+                    Stat.Text = "YOU DONE DID NIGGA, FRIED CHICKEN FOR EVERYONE!";
+                }
+                return;
+
             } else {
                 Stat.Text = "NIGGA YOU STUPID AS HELL";
-                return false;
-            }
-        }
-       
-        public void PrintToConsole(int[,] input) {
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    Console.Write(input[i, j] + " ");
-                }
-                Console.Write("\n");
+                return;
             }
         }
 
-        public string convertArrayToString(int[,] input) {
-        string res = "";
-        for(int x = 0; x < 9; x++) {
-            for(int y = 0; y < 9; y++) {
-                res += input[x, y];
-            }
-        }
-        return res;
-        }
 
-        public void initializeSudoku(int[,] input) {
-            for (int x = 0; x < 9; x++) {
-                for (int y = 0; y < 9; y++) {
-                    string tempBtnName = "btn" + x.ToString() + y.ToString();
+        public void InitializeSudoku(int[,] input) {
+            for (int column = 0; column < 9; column++) {
+                for (int row = 0; row < 9; row++) {
+                    string tempBtnName = "btn" + column.ToString() + row.ToString();
                     Button tempBtn = (Button)FindName(tempBtnName);
                     tempBtn.Content = "";
                     tempBtn.IsEnabled = true;
-                    //This is swaped because rows and collums in C# is fucked
-                    if(input[y,x] != 0) {
-                        tempBtn.Content = input[y,x];
+
+                    if (input[row,column] != 0) {
+                        tempBtn.Content = input[row,column];
                         tempBtn.IsEnabled = false;
                     }
                 }
             }
         }
 
-        public void insertButtons() {
+        public void InsertButtons() {
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
+                    
+                    //Create a new instance of a button
                     Button btn = new Button();
                     btn.Name = "btn" + x.ToString() + y.ToString();
+                    btn.Click += buttonClicked;
+                    btn.Content = "";
+                    
+                    //Puts the button in the correc grid position
                     Grid.SetColumn(btn, x);
                     Grid.SetRow(btn, y);
-                    btn.Click += buttonClicked;
                     grid.Children.Add(btn);
                     grid.RegisterName(btn.Name, btn);
-                    btn.Content = "";
+
+                    //Set margin between the boxes 
                     if(x % 3 == 0) {
                         Thickness margin = btn.Margin;
                         margin.Left = 2;
@@ -149,42 +128,32 @@ namespace Sudoku
                 }
             }
         }
-
-        public void loadWindow(object sender, RoutedEventArgs e) {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() == true) {
-                createArrayFromString(loadSudoku(openFileDialog.FileName));
-                
-            }
-        }
-
-        public string loadSudoku(string path) {
-
+       
+        public string LoadSudoku(string path) {
             string[] lines = File.ReadAllLines(path);
             int index = new Random().Next(0, lines.Length-1);
             return lines[index];
         }
 
-        public int[,] createArrayFromString(string inputString) {
+        public string ConvertDotToZero(string input) {
+            return input.Replace(".", "0");
+        }
+
+        public int[,] CreateArrayFromString(string inputString) {
             int[,] SudokuArray = new int[9, 9];
-            int x = 0;
-            for (int i = 0; i < 9; i++) {
-                for (int j = 0; j < 9; j++) {
-                    if (inputString[x].Equals('.')) {
-                        SudokuArray[i, j] = 0;
-                    } else {
-                        SudokuArray[i, j] = int.Parse(inputString[x] + "");
-                    }
-                    x++;
+            int counter = 0;
+            for (int row = 0; row < 9; row++) {
+                for (int column = 0; column < 9; column++) {
+                        SudokuArray[row, column] = int.Parse(inputString[counter] + "");
+                    counter++;
                 }
             }
             return SudokuArray;
-
         }
 
 
-        public void loadSudokuDialog(object sender, RoutedEventArgs e) {
-            OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+        public void LoadSudokuDialog(object sender, RoutedEventArgs e) {
+            OpenFileDialog dlg = new OpenFileDialog();
 
             //filter to only accept .txt
             dlg.DefaultExt = ".txt";
@@ -193,32 +162,36 @@ namespace Sudoku
             Nullable<bool> result = dlg.ShowDialog();
 
             if (result == true) {
-                // Open document 
-                string filename = dlg.FileName;
+                //Fails if the selected file is not a correct sudoku format
                 try {
-                sudokuArray = createArrayFromString(loadSudoku(filename));
-                sudokuPath = filename;
-                sudokuString = convertArrayToString(sudokuArray);
-                sudo = SudokuFactory.CreateSudoku(sudokuString);
-                initializeSudoku(sudokuArray);
+                    string sudokuString = ConvertDotToZero(LoadSudoku(dlg.FileName));
+                    //Initialize the attributes we need
+                    sudokuArray = CreateArrayFromString(sudokuString);
+                    sudo = SudokuFactory.CreateSudoku(sudokuString);
+                    //Initialize the sudoku based on the loaded sudoku
+                    InitializeSudoku(sudokuArray);
                 } catch {
                     MessageBox.Show("Den valgte fil kan ikke læses", "error");
                 }
             }
         }
 
-        public void saveSudokuDialog(object sender, RoutedEventArgs e) {
-            string tmpSudokuString = sudokuString.Replace("0", ".");
+        public void SaveSudokuDialog(object sender, RoutedEventArgs e) {
+            string tmpSudokuString = Regex.Replace(sudo.ToString(), @"\t|\n|\r|\s", "");
             SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.DefaultExt = "txt";
             if (saveFileDialog.ShowDialog() == true)
                 File.WriteAllText(saveFileDialog.FileName, tmpSudokuString);
         }
 
-        public void solveSudokuDialog(object sender, RoutedEventArgs e) {
-            ISudoku solved = sudo.Solve();
-            string solvedString = Regex.Replace(solved.ToString(), @"\t|\n|\r|\s", "");
-            Console.WriteLine(solvedString);
-            initializeSudoku(createArrayFromString(solvedString));
+        public void SolveSudokuDialog(object sender, RoutedEventArgs e) {
+            try {
+            sudo = sudo.Solve();
+            string solvedString = Regex.Replace(sudo.ToString(), @"\t|\n|\r|\s", "");
+            InitializeSudoku(CreateArrayFromString(solvedString));
+            } catch {
+                Stat.Text = "YOU NEED TO START A SUDOKU FIRST, MY NIGGA!";
+            }
         }
     }
 }
