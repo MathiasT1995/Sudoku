@@ -27,9 +27,9 @@ namespace Sudoku
 
         int[,] sudokuArray;
         string sudokuString;
-        //string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
-        // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
-        string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
+        string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
+        
+        //string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
         public MainWindow(){
 
             sudokuArray = loadSudoku(sudokuPath);
@@ -76,7 +76,10 @@ namespace Sudoku
                 sudokuString = convertArrayToString(sudokuArray);
                 selectedButton.Content = input;
                 selectedButton.IsEnabled = false;
-                    Stat.Text = "GJ NIGGA";
+                Stat.Text = "GJ NIGGA";
+                    if (SudokuFactory.CreateSudoku(sudokuString).IsSolved()) {
+                        MessageBox.Show("GJ NIGGA YOU DONE DID IT FREE FRIED CHICKEN FOR DAYS!", "GREADT SUCCEESS");
+                    }
                 return true;
             } else {
                     Stat.Text = "NIGGA YOU STUPID AS HELL";
