@@ -27,8 +27,9 @@ namespace Sudoku
 
         int[,] sudokuArray;
         string sudokuString;
-        string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
-
+        string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
+        // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
+        // "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
         public MainWindow(){
 
             sudokuArray = loadSudoku(sudokuPath);
