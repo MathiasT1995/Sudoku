@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -30,18 +31,20 @@ namespace Sudoku
         //string sudokuPath = "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
         // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
         string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
+
+        ISudoku sudo;
+
         public MainWindow(){
 
-            sudokuArray = loadSudoku(sudokuPath);
-            sudokuString = convertArrayToString(sudokuArray);
-            var s = SudokuFactory.CreateSudoku(sudokuString);
-            s.Solve();
-            Console.WriteLine(s.Solve().ToString());
+            //sudokuArray = createArrayFromString(loadSudoku(sudokuPath));
+            //sudokuString = convertArrayToString(sudokuArray);
+            //sudo = SudokuFactory.CreateSudoku(sudokuString);
+            //sudo.Solve();
 
-            PrintToConsole(sudokuArray);
+            //PrintToConsole(sudokuArray);
             InitializeComponent();
             insertButtons();
-            initializeSudoku(sudokuArray);
+            //initializeSudoku(sudokuArray);
         }
 
         public void buttonClicked(object sender, RoutedEventArgs e) {
@@ -65,28 +68,28 @@ namespace Sudoku
             //Again, this is swaped because int[] is fucked
             int y = int.Parse(selectedButton.Name[3] + "");
             int x = int.Parse(selectedButton.Name[4] + "");
-            Console.WriteLine("X: " + x + " - Y: " + y);
 
-            List<byte> allowedNumbers = SudokuFactory.CreateSudoku(sudokuString).PossibleNumbers(x,y);
-            if(allowedNumbers != null) {
+            ISudoku tmpSudo = sudo.Clone();
+            tmpSudo.SetNumberAt(x, y, input);
+            if(input == 0) {
+                Stat.Text = "Nigga, you cannot put 0 in a sudoku";
+                return false;
+            }
+            if (tmpSudo.IsSolvable()) {
 
-            Console.WriteLine(string.Join("", allowedNumbers.ToArray()));
-            if (allowedNumbers.Contains(input)) {
                 sudokuArray[x, y] = (int)input;
                 sudokuString = convertArrayToString(sudokuArray);
                 selectedButton.Content = input;
                 selectedButton.IsEnabled = false;
-                    Stat.Text = "GJ NIGGA";
+                sudo.SetNumberAt(x, y, input);
+                Stat.Text = "GJ NIGGA";
                 return true;
             } else {
-                    Stat.Text = "NIGGA YOU STUPID AS HELL";
+                Stat.Text = "NIGGA YOU STUPID AS HELL";
+                return false;
             }
-            }else {
-                Stat.Text = "NIGGA YOU ALREADY CHOSE THIS NUMBER";
-            }
-            return false;
         }
-
+       
         public void PrintToConsole(int[,] input) {
             for (int i = 0; i < 9; i++) {
                 for (int j = 0; j < 9; j++) {
@@ -125,20 +128,20 @@ namespace Sudoku
         public void insertButtons() {
             for (int x = 0; x < 9; x++) {
                 for (int y = 0; y < 9; y++) {
-                    System.Windows.Controls.Button btn = new Button();
+                    Button btn = new Button();
                     btn.Name = "btn" + x.ToString() + y.ToString();
                     Grid.SetColumn(btn, x);
                     Grid.SetRow(btn, y);
                     btn.Click += buttonClicked;
                     grid.Children.Add(btn);
                     grid.RegisterName(btn.Name, btn);
+                    btn.Content = "";
                     if(x % 3 == 0) {
                         Thickness margin = btn.Margin;
                         margin.Left = 2;
                         btn.Margin = margin;
                     }
                     if(y % 3 == 0) {
-                    Console.WriteLine(y.ToString());
                         Thickness margin = btn.Margin;
                         margin.Top = 2;
                         btn.Margin = margin;
@@ -150,30 +153,35 @@ namespace Sudoku
         public void loadWindow(object sender, RoutedEventArgs e) {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true) {
-                loadSudoku(openFileDialog.FileName);
+                createArrayFromString(loadSudoku(openFileDialog.FileName));
+                
             }
         }
 
-        public int[,] loadSudoku(string path) {
+        public string loadSudoku(string path) {
 
-            int[,] SudokuArray = new int[9, 9];
-               string[] lines = File.ReadAllLines(path);
-               int index = new Random().Next(0, lines.Length-1);
-
-               //Read string and put it in a two dimensional array
-               int x = 0;
-               for (int i = 0; i < 9; i++) {
-                   for (int j = 0; j < 9; j++) {
-                       if (lines[index][x].Equals('.')) {
-                           SudokuArray[i, j] = 0;
-                       } else {
-                           SudokuArray[i, j] = int.Parse(lines[index][x] + "");
-                       }
-                       x++;
-                   }
-               }
-        return SudokuArray;
+            string[] lines = File.ReadAllLines(path);
+            int index = new Random().Next(0, lines.Length-1);
+            return lines[index];
         }
+
+        public int[,] createArrayFromString(string inputString) {
+            int[,] SudokuArray = new int[9, 9];
+            int x = 0;
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    if (inputString[x].Equals('.')) {
+                        SudokuArray[i, j] = 0;
+                    } else {
+                        SudokuArray[i, j] = int.Parse(inputString[x] + "");
+                    }
+                    x++;
+                }
+            }
+            return SudokuArray;
+
+        }
+
 
         public void loadSudokuDialog(object sender, RoutedEventArgs e) {
             OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
@@ -188,9 +196,10 @@ namespace Sudoku
                 // Open document 
                 string filename = dlg.FileName;
                 try {
-                sudokuArray = loadSudoku(filename);
+                sudokuArray = createArrayFromString(loadSudoku(filename));
                 sudokuPath = filename;
                 sudokuString = convertArrayToString(sudokuArray);
+                sudo = SudokuFactory.CreateSudoku(sudokuString);
                 initializeSudoku(sudokuArray);
                 } catch {
                     MessageBox.Show("Den valgte fil kan ikke læses", "error");
@@ -203,6 +212,13 @@ namespace Sudoku
             SaveFileDialog saveFileDialog = new SaveFileDialog();
             if (saveFileDialog.ShowDialog() == true)
                 File.WriteAllText(saveFileDialog.FileName, tmpSudokuString);
+        }
+
+        public void solveSudokuDialog(object sender, RoutedEventArgs e) {
+            ISudoku solved = sudo.Solve();
+            string solvedString = Regex.Replace(solved.ToString(), @"\t|\n|\r|\s", "");
+            Console.WriteLine(solvedString);
+            initializeSudoku(createArrayFromString(solvedString));
         }
     }
 }

@@ -13,6 +13,7 @@
                 <MenuItem Header="File" >
                     <MenuItem Header="Save" Click="saveSudokuDialog"></MenuItem>
                     <MenuItem Header="Load" Click="loadSudokuDialog"></MenuItem>
+                    <MenuItem Header="Solve Sudoku" Click="solveSudokuDialog"></MenuItem>
                 </MenuItem>
             </Menu>
         </ToolBar>
