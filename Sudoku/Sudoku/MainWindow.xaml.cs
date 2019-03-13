@@ -27,11 +27,11 @@ namespace Sudoku
 
         int[,] sudokuArray;
         string sudokuString;
+        string sudokuPath = "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt";
 
         public MainWindow(){
-            // "C:\\Users\\Woller\\Dropbox\\Datamatiker\\C# & .net\\Projekt - Sudoku\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
-            // "C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt"
-            sudokuArray = loadSudoku("C:\\4Semester\\CSharp\\Sudoku\\Sudoku\\Sudoku\\top1465.txt");
+
+            sudokuArray = loadSudoku(sudokuPath);
             sudokuString = convertArrayToString(sudokuArray);
             var s = SudokuFactory.CreateSudoku(sudokuString);
             s.Solve();
@@ -109,6 +109,8 @@ namespace Sudoku
                 for (int y = 0; y < 9; y++) {
                     string tempBtnName = "btn" + x.ToString() + y.ToString();
                     Button tempBtn = (Button)FindName(tempBtnName);
+                    tempBtn.Content = "";
+                    tempBtn.IsEnabled = true;
                     //This is swaped because rows and collums in C# is fucked
                     if(input[y,x] != 0) {
                         tempBtn.Content = input[y,x];
@@ -169,7 +171,26 @@ namespace Sudoku
                }
         return SudokuArray;
             }
-        }
+
+        public void loadSudokuDialog(object sender, RoutedEventArgs e) {
+            OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            Nullable<bool> result = dlg.ShowDialog();
+
+
+
+
+            if (result == true) {
+                // Open document 
+                string filename = dlg.FileName;
+                sudokuPath = filename;
+                sudokuArray = loadSudoku(filename);
+                sudokuString = convertArrayToString(sudokuArray);
+                initializeSudoku(sudokuArray);
+
+            }
+
     }
+    }
+}
     
 

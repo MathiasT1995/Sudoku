@@ -12,7 +12,7 @@
             <Menu>
                 <MenuItem Header="File" >
                     <MenuItem Header="Save"></MenuItem>
-                    <MenuItem Header="Load"></MenuItem>
+                    <MenuItem Header="Load" Click="loadSudokuDialog"></MenuItem>
                 </MenuItem>
             </Menu>
         </ToolBar>
