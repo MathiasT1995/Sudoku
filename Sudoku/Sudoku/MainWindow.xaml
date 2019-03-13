@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sudoku"
         mc:Ignorable="d"
-        Title="MainWindow" MinHeight="400" Height="450" MinWidth="200" Width="350"
+        Title="MainWindow" MinHeight="450" Height="450" MinWidth="400" Width="400"
         KeyDown = "Window_KeyDown">
     <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <ToolBar MinHeight="10" DockPanel.Dock="Top">
